@@ -35,7 +35,7 @@ pnpm run dev
 
 `pnpm run dev` starts Convex and TanStack Start together. On the first run,
 Convex may ask you to sign in and choose or create a development deployment.
-The dev script also creates Convex Auth JWT keys in that development deployment
+The dev script also creates Convex Auth signing keys in that development deployment
 if they are missing. In a linked Git worktree, it automatically uses an isolated
 local backend.
 
@@ -44,8 +44,9 @@ Open the local URL printed by Vite.
 ## First run
 
 On a fresh clone, the first push of `pnpm run dev` fails: `convex/http.ts` imports
-`.convex-hosting/version.js`, which only a deploy writes. Keep `pnpm run dev` running, because
-a local backend runs inside it, and run this in a second terminal:
+`.convex-hosting/version.js` and the server build `dist/server/server.js`, which only a deploy
+writes. Keep `pnpm run dev` running, because a local backend runs inside it, and run this in a
+second terminal:
 
 ```sh
 pnpm run deploy:dev

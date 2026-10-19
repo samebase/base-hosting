@@ -1,4 +1,4 @@
-// Samebase source build: v2132
+// Samebase source build: v2133
 import process from "node:process";
 
 import { describe, expect, it, vi } from "vite-plus/test";
@@ -12,14 +12,14 @@ const previewEnv = {
 
 describe("ensure-convex-auth", () => {
   it("runs the Convex JavaScript entrypoint through Node without a shell", () => {
-    const command = buildConvexCliCommand(["env", "get", "JWKS"], {
+    const command = buildConvexCliCommand(["env", "get", "AUTH_JWKS"], {
       env: {},
       stdio: "pipe",
     });
 
     expect(command.command).toBe(process.execPath);
     expect(command.args[0]).toMatch(/[\\/]node_modules[\\/]convex[\\/]bin[\\/]main\.js$/);
-    expect(command.args.slice(1)).toEqual(["env", "get", "JWKS"]);
+    expect(command.args.slice(1)).toEqual(["env", "get", "AUTH_JWKS"]);
     expect(command.spawnOptions).not.toHaveProperty("shell");
   });
 
@@ -32,12 +32,12 @@ describe("ensure-convex-auth", () => {
     });
 
     expect(calls.slice(0, 2)).toEqual([
-      ["env", "get", "JWT_PRIVATE_KEY"],
-      ["env", "get", "JWKS"],
+      ["env", "get", "AUTH_PRIVATE_KEY"],
+      ["env", "get", "AUTH_JWKS"],
     ]);
     expect(calls.slice(2).map((args) => args.slice(0, 4))).toEqual([
-      ["env", "set", "--", "JWT_PRIVATE_KEY"],
-      ["env", "set", "--", "JWKS"],
+      ["env", "set", "--", "AUTH_PRIVATE_KEY"],
+      ["env", "set", "--", "AUTH_JWKS"],
     ]);
     expect(calls[2]?.[4]).toBeTruthy();
     expect(calls[3]?.[4]).toBeTruthy();
@@ -51,12 +51,12 @@ describe("ensure-convex-auth", () => {
     });
 
     expect(calls.slice(0, 2)).toEqual([
-      ["env", "get", "JWT_PRIVATE_KEY", "--preview-name", "nicu-preview-smoke"],
-      ["env", "get", "JWKS", "--preview-name", "nicu-preview-smoke"],
+      ["env", "get", "AUTH_PRIVATE_KEY", "--preview-name", "nicu-preview-smoke"],
+      ["env", "get", "AUTH_JWKS", "--preview-name", "nicu-preview-smoke"],
     ]);
     expect(calls.slice(2).map((args) => args.slice(0, 6))).toEqual([
-      ["env", "set", "--preview-name", "nicu-preview-smoke", "--", "JWT_PRIVATE_KEY"],
-      ["env", "set", "--preview-name", "nicu-preview-smoke", "--", "JWKS"],
+      ["env", "set", "--preview-name", "nicu-preview-smoke", "--", "AUTH_PRIVATE_KEY"],
+      ["env", "set", "--preview-name", "nicu-preview-smoke", "--", "AUTH_JWKS"],
     ]);
   });
 
@@ -79,8 +79,8 @@ describe("ensure-convex-auth", () => {
     );
 
     expect(calls).toEqual([
-      ["env", "get", "JWT_PRIVATE_KEY", "--prod"],
-      ["env", "get", "JWKS", "--prod"],
+      ["env", "get", "AUTH_PRIVATE_KEY", "--prod"],
+      ["env", "get", "AUTH_JWKS", "--prod"],
     ]);
   });
 
@@ -96,8 +96,8 @@ describe("ensure-convex-auth", () => {
     );
 
     expect(calls).toEqual([
-      ["env", "get", "JWT_PRIVATE_KEY"],
-      ["env", "get", "JWKS"],
+      ["env", "get", "AUTH_PRIVATE_KEY"],
+      ["env", "get", "AUTH_JWKS"],
     ]);
   });
 
@@ -121,8 +121,8 @@ describe("ensure-convex-auth", () => {
         "--preview-name",
         "nicu-preview-smoke",
       ],
-      ["env", "get", "JWT_PRIVATE_KEY", "--preview-name", "nicu-preview-smoke"],
-      ["env", "get", "JWKS", "--preview-name", "nicu-preview-smoke"],
+      ["env", "get", "AUTH_PRIVATE_KEY", "--preview-name", "nicu-preview-smoke"],
+      ["env", "get", "AUTH_JWKS", "--preview-name", "nicu-preview-smoke"],
     ]);
   });
 
@@ -156,9 +156,9 @@ describe("ensure-convex-auth", () => {
         calls.push(args);
         return { code: 1, stdout: "", stderr: "Environment read failed" };
       }),
-    ).rejects.toThrow("Could not read Convex environment variable JWT_PRIVATE_KEY.");
+    ).rejects.toThrow("Could not read Convex environment variable AUTH_PRIVATE_KEY.");
     expect(calls).toEqual([
-      ["env", "get", "JWT_PRIVATE_KEY", "--preview-name", "nicu-preview-smoke"],
+      ["env", "get", "AUTH_PRIVATE_KEY", "--preview-name", "nicu-preview-smoke"],
     ]);
   });
 });

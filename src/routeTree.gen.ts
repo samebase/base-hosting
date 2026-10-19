@@ -10,17 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SplatRouteImport } from './routes/$'
+import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as SigninRouteImport } from './routes/signin'
+import { Route as AuthedAccountRouteImport } from './routes/_authed/account'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SplatRoute = SplatRouteImport.update({
-  id: '/$',
-  path: '/$',
+const AuthedRoute = AuthedRouteImport.update({
+  id: '/_authed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -28,35 +29,50 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedAccountRoute = AuthedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
+  '/signin': typeof SigninRoute
+  '/account': typeof AuthedAccountRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
+  '/signin': typeof SigninRoute
+  '/account': typeof AuthedAccountRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/$': typeof SplatRoute
+  '/_authed': typeof AuthedRouteWithChildren
   '/about': typeof AboutRoute
+  '/signin': typeof SigninRoute
+  '/_authed/account': typeof AuthedAccountRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$' | '/about'
+  fullPaths: '/' | '/about' | '/signin' | '/account'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$' | '/about'
-  id: '__root__' | '/' | '/$' | '/about'
+  to: '/' | '/about' | '/signin' | '/account'
+  id: '__root__' | '/' | '/_authed' | '/about' | '/signin' | '/_authed/account'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SplatRoute: typeof SplatRoute
+  AuthedRoute: typeof AuthedRouteWithChildren
   AboutRoute: typeof AboutRoute
+  SigninRoute: typeof SigninRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,11 +84,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$': {
-      id: '/$'
-      path: '/$'
-      fullPath: '/$'
-      preLoaderRoute: typeof SplatRouteImport
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -82,13 +98,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authed/account': {
+      id: '/_authed/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthedAccountRouteImport
+      parentRoute: typeof AuthedRoute
+    }
   }
 }
 
+interface AuthedRouteChildren {
+  AuthedAccountRoute: typeof AuthedAccountRoute
+}
+
+const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedAccountRoute: AuthedAccountRoute,
+}
+
+const AuthedRouteWithChildren =
+  AuthedRoute._addFileChildren(AuthedRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SplatRoute: SplatRoute,
+  AuthedRoute: AuthedRouteWithChildren,
   AboutRoute: AboutRoute,
+  SigninRoute: SigninRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,7 +1,7 @@
-// Samebase source build: v2132
+// Samebase source build: v2133
 /// <reference types="node" />
 import { spawn } from "node:child_process";
-import { generateKeyPairSync } from "node:crypto";
+import { generateKeyPairSync, randomUUID } from "node:crypto";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -100,10 +100,8 @@ async function readDeploymentUrl(
   return url;
 }
 
-function normalizePrivateKey(privateKey: string | Buffer) {
-  return privateKey.toString().trimEnd().replace(/\n/g, " ");
-}
-
+// The format of `npx @convex-dev/auth`: the auth component decodes the base64 PKCS#8 key and signs
+// with the `kid` of the first key in the set.
 function generateAuthKeys() {
   const { privateKey, publicKey } = generateKeyPairSync("rsa", {
     modulusLength: 2048,
@@ -112,8 +110,10 @@ function generateAuthKeys() {
   const privatePem = privateKey.export({ format: "pem", type: "pkcs8" });
   const publicJwk = publicKey.export({ format: "jwk" });
   return {
-    JWT_PRIVATE_KEY: normalizePrivateKey(privatePem),
-    JWKS: JSON.stringify({ keys: [{ use: "sig", ...publicJwk }] }),
+    AUTH_PRIVATE_KEY: Buffer.from(privatePem.toString()).toString("base64"),
+    AUTH_JWKS: JSON.stringify({
+      keys: [{ ...publicJwk, kid: randomUUID(), alg: "RS256", use: "sig" }],
+    }),
   };
 }
 
@@ -162,20 +162,20 @@ export async function ensureConvexAuth(
       );
     }
   }
-  const existingPrivateKey = await readConvexEnv("JWT_PRIVATE_KEY", env, selectionArgs, runConvex);
-  const existingJwks = await readConvexEnv("JWKS", env, selectionArgs, runConvex);
+  const existingPrivateKey = await readConvexEnv("AUTH_PRIVATE_KEY", env, selectionArgs, runConvex);
+  const existingJwks = await readConvexEnv("AUTH_JWKS", env, selectionArgs, runConvex);
 
   if (existingPrivateKey && existingJwks) {
     console.log("Convex Auth keys already configured.");
     return;
   }
   if (existingPrivateKey || existingJwks) {
-    throw new Error("JWT_PRIVATE_KEY and JWKS must be configured together.");
+    throw new Error("AUTH_PRIVATE_KEY and AUTH_JWKS must be configured together.");
   }
 
   const keys = generateAuthKeys();
-  await setConvexEnv("JWT_PRIVATE_KEY", keys.JWT_PRIVATE_KEY, env, selectionArgs, runConvex);
-  await setConvexEnv("JWKS", keys.JWKS, env, selectionArgs, runConvex);
+  await setConvexEnv("AUTH_PRIVATE_KEY", keys.AUTH_PRIVATE_KEY, env, selectionArgs, runConvex);
+  await setConvexEnv("AUTH_JWKS", keys.AUTH_JWKS, env, selectionArgs, runConvex);
   console.log("Convex Auth keys configured.");
 }
 
