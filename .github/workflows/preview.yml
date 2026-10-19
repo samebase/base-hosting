@@ -17,7 +17,7 @@ jobs:
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: deploy
-        uses: samebase/convex-hosting/actions/preview@v1
+        uses: samebase/convex-hosting/actions/preview@ceb6259a5fa3292bdbf05675a48327ec7b9cffa6 # v1.2.1
         with: { deploy-key: "${{ secrets.CONVEX_PREVIEW_DEPLOY_KEY }}" }
   cleanup:
     permissions: { contents: read, pull-requests: write }
@@ -26,5 +26,5 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: { group: "preview-${{ github.head_ref }}", queue: max }
     steps:
-      - uses: samebase/convex-hosting/actions/cleanup@v1
+      - uses: samebase/convex-hosting/actions/cleanup@ceb6259a5fa3292bdbf05675a48327ec7b9cffa6 # v1.2.1
         with: { deploy-key: "${{ secrets.CONVEX_PREVIEW_DEPLOY_KEY }}" }

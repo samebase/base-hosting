@@ -15,7 +15,6 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import appCss from "../style.css?url";
-import { SamebaseAttribution } from "#components/SamebaseAttribution";
 import { Button } from "#components/ui/button";
 
 export const Route = createRootRouteWithContext<{
@@ -79,12 +78,7 @@ function RootComponent() {
             </Button>
           </SignedOut>
         </nav>
-        <div className="flex-1">
-          <Outlet />
-        </div>
-        <footer className="mx-auto w-full max-w-2xl px-4 py-3 text-right text-muted-foreground">
-          <SamebaseAttribution />
-        </footer>
+        <Outlet />
       </RootDocument>
     </SessionProvider>
   );
@@ -96,7 +90,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <head>
         <HeadContent />
       </head>
-      <body className="flex min-h-dvh flex-col">
+      <body>
         {children}
         <Scripts />
       </body>

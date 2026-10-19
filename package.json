@@ -14,20 +14,18 @@
     "dev:primary": "node ./scripts/run-primary-dev.ts",
     "dev:frontend": "vp dev",
     "dev:worktree": "node ./scripts/run-worktree-dev.ts",
-    "check": "vp check && vp run typecheck && vp test && vp run verify:dev-launcher-version",
+    "check": "vp check && vp run typecheck && vp test",
     "build": "vp run check && vp build",
     "deploy": "convex-hosting deploy --build \"vp run build && node ./scripts/ensure-convex-auth.ts --prod\" --dist dist/client --html-handling drop-trailing-slash",
     "deploy:dev": "convex-hosting deploy --dev --build \"vp run build && node ./scripts/ensure-convex-auth.ts\" --dist dist/client --html-handling drop-trailing-slash",
     "format": "vp fmt",
     "format:check": "vp fmt --check",
-    "generate:dev-launcher-version": "node ./scripts/generate-dev-launcher-version.ts --write",
     "lint": "vp lint --report-unused-disable-directives",
     "preview": "vp preview",
     "prepare": "vp config --no-agent",
     "test": "vp test",
     "typecheck": "tsc && vp run typecheck:node && tsc --project convex/tsconfig.json",
-    "typecheck:node": "tsc --project tsconfig.node.json",
-    "verify:dev-launcher-version": "node ./scripts/generate-dev-launcher-version.ts"
+    "typecheck:node": "tsc --project tsconfig.node.json"
   },
   "dependencies": {
     "@convex-dev/auth": "2.0.0-beta.0",

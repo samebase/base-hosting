@@ -19,6 +19,10 @@ stack: one deployment, one URL, and one deploy key. The same app on Cloudflare W
 - Vite+ for development, formatting, linting, tests, and builds
 - Node.js 24 for application and automation code
 
+Convex Auth is pinned to 2.0.0-beta.0 exactly because the adapter reaches its cookie-session
+provider through a file that beta.0 does not export; see the
+[adapter changelog](https://github.com/samebase/convex-hosting/blob/main/packages/convex-hosting-tanstack-start/CHANGELOG.md).
+
 The example app is a public todo list. Guests can sign in without an external identity provider,
 create todos, see real-time updates, and scan a QR code to open the same list on another device.
 
@@ -43,8 +47,8 @@ create todos, see real-time updates, and scan a QR code to open the same list on
    $key = npx convex deployment token create "<repository> deploy.yml" --prod; if ($LASTEXITCODE -eq 0) { $key | gh secret set CONVEX_DEPLOY_KEY }
    ```
 
-5. Push to `main`, or re-run the failed `deploy.yml` run on the Actions tab. The run's summary shows
-   the site URL, `https://<deployment>.convex.site`.
+5. Push to `main`, or re-run the first `deploy.yml` run (it shows a notice that no key is set). The
+   run's summary shows the site URL, `https://<deployment>.convex.site`.
 
 Without a terminal, generate the production deploy key in the
 [Convex dashboard](https://dashboard.convex.dev/) (the production deployment, **Settings**,
@@ -54,9 +58,8 @@ variables**, **Actions**.
 Optional previews: store the project's preview deploy key (Convex dashboard, project settings,
 **Preview deploy keys**) as the repository secret `CONVEX_PREVIEW_DEPLOY_KEY`, not as a secret of
 the `preview` environment, because the cleanup job runs outside that environment. Each pull request
-then deploys to a preview
-named after its branch, and closing the pull request deletes it. Without the key, pull requests
-deploy nothing.
+from this repository then deploys to a preview named after its branch, and closing the pull request
+deletes it. Without the key, pull requests deploy nothing.
 
 ## Local development
 
@@ -69,10 +72,9 @@ pnpm install
 pnpm run dev
 ```
 
-The development command starts Convex and TanStack Start together. It also creates missing Convex
-Auth signing keys in the development deployment. In a linked Git worktree, the same command
-automatically uses an isolated local backend. Convex writes `VITE_CONVEX_URL` to `.env.local`; do
-not set it manually.
+The development command starts Convex and TanStack Start together. In a linked Git worktree, the
+same command automatically uses an isolated local backend. Convex writes `VITE_CONVEX_URL` to
+`.env.local`; do not set it manually.
 
 To force the isolated backend outside a linked worktree, use:
 
@@ -82,16 +84,18 @@ pnpm run dev:worktree
 
 ### First run
 
-On a fresh clone, the first push of `pnpm run dev` fails: `convex/http.ts` imports
-`.convex-hosting/version.js` and the server build `dist/server/server.js`, which only a deploy
-writes. Keep `pnpm run dev` running and run this in a second terminal:
+On a fresh clone, the first push of `pnpm run dev` fails: `convex/convex.config.ts` requires the
+Convex Auth keys `AUTH_PRIVATE_KEY` and `AUTH_JWKS`, and `convex/http.ts` imports
+`.convex-hosting/version.js` and the server build `dist/server/server.js`. Only a deploy creates
+them. Keep `pnpm run dev` running and run this in a second terminal:
 
 ```sh
 pnpm run deploy:dev
 ```
 
-It builds the app, uploads the files to the development deployment, writes the version file, and
-pushes. Then stop `pnpm run dev` and start it again; it works as usual from then on.
+It builds the app, creates the Convex Auth keys, uploads the files to the development deployment,
+writes the version file, and pushes. Then stop `pnpm run dev` and start it again; it works as usual
+from then on.
 
 The core workflow runs on macOS, Linux, and Windows. See
 [`docs/local-setup.md`](./docs/local-setup.md) for the local Convex setup and troubleshooting steps.
