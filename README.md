@@ -4,7 +4,8 @@ A small, complete app base: guest sign-in, real-time data, sharing, and deploys,
 that a new app might not need.
 
 The Convex deployment runs the backend and also serves the app's files through
-[convex-hosting](https://github.com/samebase/convex-hosting). One Convex project is the whole
+[convex-hosting](https://github.com/samebase/convex-hosting). This repository deploys itself the
+same way: https://little-labrador-46.convex.site is its `main`. One Convex project is the whole
 stack: one deployment, one URL, and one deploy key. The same app on Cloudflare Workers is
 [samebase/base](https://github.com/samebase/base).
 
