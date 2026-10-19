@@ -10,9 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-.wrangler
 *.local
-.dev.vars*
 .env*
 .convex
 convex/.tmp

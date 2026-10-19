@@ -1,4 +1,3 @@
-// Samebase source build: v2133
 /// <reference types="node" />
 import { spawn } from "node:child_process";
 import { generateKeyPairSync, randomUUID } from "node:crypto";

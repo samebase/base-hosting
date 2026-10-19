@@ -1,4 +1,3 @@
-// Samebase source build: v2133
 import process from "node:process";
 
 import { describe, expect, it, vi } from "vite-plus/test";

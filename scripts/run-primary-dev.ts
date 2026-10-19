@@ -1,5 +1,3 @@
-// Samebase starter dev launcher sha256:9a19ac6550a3a4deb0617663c683f9ef45e76462f5069f1a24e43faccba4f71c
-// Samebase source build: v1989
 /// <reference types="node" />
 import { spawn } from "node:child_process";
 import process from "node:process";
@@ -17,7 +15,7 @@ export function runPrimaryDev() {
       "dev",
       ...process.argv.slice(2),
       "--start",
-      "node ./scripts/ensure-convex-auth.ts && vp run dev:frontend",
+      "vp run dev:frontend",
     ],
     {
       stdio: "inherit",
