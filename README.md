@@ -63,8 +63,9 @@ deletes it. Without the key, pull requests deploy nothing.
 
 ## Local development
 
-Install [Vite+](https://viteplus.dev/guide/) and use it to supply the Node.js version in
-`.node-version`. Run `corepack enable` once to make the pinned pnpm version available.
+Install the [Vite+](https://viteplus.dev/guide/) global CLI; it selects the Node.js version from
+`.node-version` on its own, and `vp env install` installs it. Run `corepack enable` once to make the
+pinned pnpm version available.
 
 ```sh
 corepack enable
@@ -108,6 +109,9 @@ The core workflow runs on macOS, Linux, and Windows. See
 | `pnpm run build`      | Run the checks and build the app into `dist/client`               |
 | `pnpm run deploy:dev` | Build, upload, and push to the development deployment             |
 | `pnpm run deploy`     | Build, upload, and push to production, or to the key's deployment |
+
+The build prerenders `/about` with the Convex client, so it needs `VITE_CONVEX_URL` in `.env.local`,
+which the first `pnpm run dev` writes; CI passes a placeholder.
 
 ## Deployment contract
 
