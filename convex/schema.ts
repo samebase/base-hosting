@@ -1,9 +1,11 @@
-import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  ...authTables,
+  // One document for each guest. The auth components keep the accounts and sessions.
+  users: defineTable({
+    name: v.string(),
+  }).index("by_name", ["name"]),
   todos: defineTable({
     userId: v.id("users"),
     text: v.string(),
@@ -12,11 +14,4 @@ export default defineSchema({
   })
     .index("by_created_at", ["createdAt"])
     .index("by_user_created_at", ["userId", "createdAt"]),
-  guestNames: defineTable({
-    name: v.string(),
-    userId: v.id("users"),
-    createdAt: v.number(),
-  })
-    .index("by_name", ["name"])
-    .index("by_user", ["userId"]),
 });

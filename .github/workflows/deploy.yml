@@ -15,5 +15,5 @@ jobs:
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: deploy
-        uses: samebase/convex-hosting/actions/deploy@v1
+        uses: samebase/convex-hosting/actions/deploy@ceb6259a5fa3292bdbf05675a48327ec7b9cffa6 # v1.2.1
         with: { deploy-key: "${{ secrets.CONVEX_DEPLOY_KEY }}" }

@@ -4,18 +4,24 @@ A small, complete app base: guest sign-in, real-time data, sharing, and deploys,
 that a new app might not need.
 
 The Convex deployment runs the backend and also serves the app's files through
-[convex-hosting](https://github.com/samebase/convex-hosting). One Convex project is the whole
+[convex-hosting](https://github.com/samebase/convex-hosting). This repository deploys itself the
+same way: https://little-labrador-46.convex.site is its `main`. One Convex project is the whole
 stack: one deployment, one URL, and one deploy key. The same app on Cloudflare Workers is
 [samebase/base](https://github.com/samebase/base).
 
 ## Stack
 
-- React 19 and TanStack Start in SPA mode
-- Convex for the real-time backend, database, and guest authentication
+- React 19 and TanStack Start, with pages rendered on the server
+- Convex for the real-time backend and database, and Convex Auth 2.0.0-beta.0 for guest sign-in
+  with the session in an httpOnly cookie, so the server renders signed-in pages
 - convex-hosting for delivery from the Convex deployment, with Cloudflare's rules for the files
 - shadcn/ui primitives for the user interface
 - Vite+ for development, formatting, linting, tests, and builds
 - Node.js 24 for application and automation code
+
+Convex Auth is pinned to 2.0.0-beta.0 exactly because the adapter reaches its cookie-session
+provider through a file that beta.0 does not export; see the
+[adapter changelog](https://github.com/samebase/convex-hosting/blob/main/packages/convex-hosting-tanstack-start/CHANGELOG.md).
 
 The example app is a public todo list. Guests can sign in without an external identity provider,
 create todos, see real-time updates, and scan a QR code to open the same list on another device.
@@ -41,8 +47,8 @@ create todos, see real-time updates, and scan a QR code to open the same list on
    $key = npx convex deployment token create "<repository> deploy.yml" --prod; if ($LASTEXITCODE -eq 0) { $key | gh secret set CONVEX_DEPLOY_KEY }
    ```
 
-5. Push to `main`, or re-run the failed `deploy.yml` run on the Actions tab. The run's summary shows
-   the site URL, `https://<deployment>.convex.site`.
+5. Push to `main`, or re-run the first `deploy.yml` run (it shows a notice that no key is set). The
+   run's summary shows the site URL, `https://<deployment>.convex.site`.
 
 Without a terminal, generate the production deploy key in the
 [Convex dashboard](https://dashboard.convex.dev/) (the production deployment, **Settings**,
@@ -52,9 +58,8 @@ variables**, **Actions**.
 Optional previews: store the project's preview deploy key (Convex dashboard, project settings,
 **Preview deploy keys**) as the repository secret `CONVEX_PREVIEW_DEPLOY_KEY`, not as a secret of
 the `preview` environment, because the cleanup job runs outside that environment. Each pull request
-then deploys to a preview
-named after its branch, and closing the pull request deletes it. Without the key, pull requests
-deploy nothing.
+from this repository then deploys to a preview named after its branch, and closing the pull request
+deletes it. Without the key, pull requests deploy nothing.
 
 ## Local development
 
@@ -67,10 +72,9 @@ pnpm install
 pnpm run dev
 ```
 
-The development command starts Convex and TanStack Start together. It also creates missing Convex
-Auth JWT keys in the development deployment. In a linked Git worktree, the same command
-automatically uses an isolated local backend. Convex writes `VITE_CONVEX_URL` to `.env.local`; do
-not set it manually.
+The development command starts Convex and TanStack Start together. In a linked Git worktree, the
+same command automatically uses an isolated local backend. Convex writes `VITE_CONVEX_URL` to
+`.env.local`; do not set it manually.
 
 To force the isolated backend outside a linked worktree, use:
 
@@ -80,16 +84,18 @@ pnpm run dev:worktree
 
 ### First run
 
-On a fresh clone, the first push of `pnpm run dev` fails: `convex/http.ts` imports
-`.convex-hosting/version.js`, which only a deploy writes. Keep `pnpm run dev` running and run this
-in a second terminal:
+On a fresh clone, the first push of `pnpm run dev` fails: `convex/convex.config.ts` requires the
+Convex Auth keys `AUTH_PRIVATE_KEY` and `AUTH_JWKS`, and `convex/http.ts` imports
+`.convex-hosting/version.js` and the server build `dist/server/server.js`. Only a deploy creates
+them. Keep `pnpm run dev` running and run this in a second terminal:
 
 ```sh
 pnpm run deploy:dev
 ```
 
-It builds the app, uploads the files to the development deployment, writes the version file, and
-pushes. Then stop `pnpm run dev` and start it again; it works as usual from then on.
+It builds the app, creates the Convex Auth keys, uploads the files to the development deployment,
+writes the version file, and pushes. Then stop `pnpm run dev` and start it again; it works as usual
+from then on.
 
 The core workflow runs on macOS, Linux, and Windows. See
 [`docs/local-setup.md`](./docs/local-setup.md) for the local Convex setup and troubleshooting steps.
@@ -98,7 +104,7 @@ The core workflow runs on macOS, Linux, and Windows. See
 
 | Command               | Purpose                                                           |
 | --------------------- | ----------------------------------------------------------------- |
-| `pnpm run check`      | Format, lint, type-check, test, and verify generated redirects    |
+| `pnpm run check`      | Format, lint, type-check, and test                                |
 | `pnpm run build`      | Run the checks and build the app into `dist/client`               |
 | `pnpm run deploy:dev` | Build, upload, and push to the development deployment             |
 | `pnpm run deploy`     | Build, upload, and push to production, or to the key's deployment |
@@ -107,7 +113,7 @@ The core workflow runs on macOS, Linux, and Windows. See
 
 `.github/workflows/deploy.yml` deploys each push to `main` with
 [`samebase/convex-hosting/actions/deploy`](https://github.com/samebase/convex-hosting/blob/main/docs/deploy.md#github-actions)
-and `CONVEX_DEPLOY_KEY`. `.github/workflows/preview.yml` deploys each pull request with
+and `CONVEX_DEPLOY_KEY`. `.github/workflows/preview.yml` deploys each pull request from this repository with
 `actions/preview` and `CONVEX_PREVIEW_DEPLOY_KEY`, and `actions/cleanup` deletes the preview when
 the pull request closes. Both actions run the `deploy` package script. Keep its name, and keep the
 `convex-hosting deploy` command at its end, because `actions/preview` appends `--preview-name`.
@@ -119,19 +125,23 @@ keeps existing keys; it stops the deploy when the deployment it selects is not t
 deploy targets. Deploy with `pnpm run deploy`, never with a plain `npx convex deploy`: a plain
 push serves the files of the last deploy from this checkout, often another deployment's.
 
-The files follow Cloudflare's static asset rules: `public/_redirects` maps `/` and `/about` to their
-prerendered pages, and every other path gets the SPA shell (`--not-found-handling
-single-page-application`). See the
+`convex/http.ts` answers each path as a Cloudflare Worker with static assets does: a file of the
+build, else the page that the server build of `src/server.ts` renders, including the 404 page. The
+build prerenders `/about` into a file, served at `/about` (`--html-handling drop-trailing-slash`).
+The files follow Cloudflare's static asset rules. See the
 [convex-hosting documentation](https://github.com/samebase/convex-hosting#documentation) for custom
 domains, headers, and the deploy options.
 
 ## Important files
 
 - `package.json` defines the supported development, check, build, and deploy commands.
-- `prerender.config.ts` defines the public pages shared by TanStack Start and `public/_redirects`.
-- `vite.config.ts` defines the TanStack Start SPA and prerender behavior.
-- `convex/convex.config.ts` mounts the convex-hosting component, and `convex/http.ts` routes every
-  path that the auth routes do not answer to the site.
+- `vite.config.ts` builds the server for Convex with `convexSsr()` and prerenders `/about`.
+- `src/server.ts` is the server entry: it answers the `/auth` sign-in, refresh, and sign-out routes
+  and renders each page with the session of the request's cookies.
+- `convex/convex.config.ts` mounts the Convex Auth and convex-hosting components, and
+  `convex/http.ts` routes every path to the site.
+- `src/routes/_authed/` holds the pages that need a session; without one they redirect to
+  `/signin`.
 - `.github/workflows/deploy.yml` and `.github/workflows/preview.yml` deploy production and previews.
 - `convex/` contains the backend, schema, authentication, and generated Convex bindings.
 - `src/` contains the React application and routes.
@@ -145,8 +155,6 @@ domains, headers, and the deploy options.
   `AGENTS.md` and `CLAUDE.md` are managed by `npx convex ai-files install`.
 - The marked Vite+ section in `AGENTS.md` is generated by `vp config`. The package `prepare`
   command uses `--no-agent`, so installs do not rewrite it.
-- `scripts/generate-cloudflare-redirects.ts` owns only the marked generated block in
-  `public/_redirects`. Custom redirect rules can stay outside that block.
 
 Do not hand-edit generated files when their source tool can update them.
 When a Convex AI-file update changes the installed source snapshot, confirm its distribution license

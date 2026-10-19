@@ -53,5 +53,7 @@ export declare const internal: FilterApi<
 >;
 
 export declare const components: {
+  auth: import("@convex-dev/auth/_generated/component.js").ComponentApi<"auth">;
+  authAnonymous: import("@convex-dev/auth/components/anonymous/_generated/component.js").ComponentApi<"authAnonymous">;
   hosting: import("@samebase/convex-hosting/_generated/component.js").ComponentApi<"hosting">;
 };
