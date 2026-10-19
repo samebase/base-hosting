@@ -113,7 +113,7 @@ The core workflow runs on macOS, Linux, and Windows. See
 
 `.github/workflows/deploy.yml` deploys each push to `main` with
 [`samebase/convex-hosting/actions/deploy`](https://github.com/samebase/convex-hosting/blob/main/docs/deploy.md#github-actions)
-and `CONVEX_DEPLOY_KEY`. `.github/workflows/preview.yml` deploys each pull request with
+and `CONVEX_DEPLOY_KEY`. `.github/workflows/preview.yml` deploys each pull request from this repository with
 `actions/preview` and `CONVEX_PREVIEW_DEPLOY_KEY`, and `actions/cleanup` deletes the preview when
 the pull request closes. Both actions run the `deploy` package script. Keep its name, and keep the
 `convex-hosting deploy` command at its end, because `actions/preview` appends `--preview-name`.
