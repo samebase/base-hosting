@@ -16,7 +16,7 @@ overrides:
   brace-expansion@5: 5.0.12
   browserslist: 4.28.7
   fast-uri: 3.1.8
-  hono: 4.13.7
+  hono: 4.13.14
   ip-address: 10.7.1
   js-yaml: 4.3.2
   nanoid: 3.3.18
@@ -37,7 +37,7 @@ importers:
     dependencies:
       '@convex-dev/auth':
         specifier: 2.0.0-beta.0
-        version: 2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)
+        version: 2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)
       '@convex-dev/react-query':
         specifier: ^0.1.0
         version: 0.1.0(@tanstack/react-query@5.104.4(@types/react@19.3.0)(react@19.3.1))(convex@1.47.0(react@19.3.1))
@@ -46,7 +46,7 @@ importers:
         version: 0.13.1(convex@1.47.0(react@19.3.1))
       '@samebase/convex-hosting-tanstack-start':
         specifier: ^0.10.1
-        version: 0.10.1(@convex-dev/auth@2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7))(@convex-dev/react-query@0.1.0(@tanstack/react-query@5.104.4(@types/react@19.3.0)(react@19.3.1))(convex@1.47.0(react@19.3.1)))(@samebase/convex-hosting@0.13.1(convex@1.47.0(react@19.3.1)))(@tanstack/react-router@1.170.45(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@tanstack/react-start@1.169.3(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(esbuild@0.27.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(convex@1.47.0(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        version: 0.10.1(@convex-dev/auth@2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7))(@convex-dev/react-query@0.1.0(@tanstack/react-query@5.104.4(@types/react@19.3.0)(react@19.3.1))(convex@1.47.0(react@19.3.1)))(@samebase/convex-hosting@0.13.1(convex@1.47.0(react@19.3.1)))(@tanstack/react-router@1.170.45(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@tanstack/react-start@1.169.3(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(esbuild@0.27.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(convex@1.47.0(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@tailwindcss/vite':
         specifier: ^4.3.0
         version: 4.3.3(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))
@@ -486,7 +486,7 @@ packages:
     resolution: {integrity: sha512-ZcnNVhKTmyDJeg0UlnZjvM73JBsTAuhrH/J4fjwGOw59PwOW51r4J+p6CsKZWXdKSme4MFqU62CZMOsdDrU4CA==}
     engines: {node: '>=20'}
     peerDependencies:
-      hono: 4.13.7
+      hono: 4.13.14
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -2432,7 +2432,7 @@ packages:
     peerDependencies:
       '@standard-schema/spec': ^1.0.0
       convex: ^1.46.0
-      hono: 4.13.7
+      hono: 4.13.14
       react: ^17.0.2 || ^18.0.0 || ^19.0.0
       typescript: ^5.5 || ^6.0.0 || ^7.0.0
       zod: ^3.25.0 || ^4.0.0
@@ -2789,8 +2789,8 @@ packages:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
 
-  hono@4.13.7:
-    resolution: {integrity: sha512-c8/gF9ac8Y78/agExVocyLevgR+JlpNB444Py0FSX8pJoPdYUfUzRcXtYEYGwt6l19qIlVZPN5Mfsw9jFShmQQ==}
+  hono@4.13.14:
+    resolution: {integrity: sha512-yhRLQ21U6qa9Hsu2N7Qcbh8tE+WKEcoErjIo56LeSGiGXGp9sA7UpE86Ui9uexb61KakiGwuHMn2QdV7w6i6kQ==}
     engines: {node: '>=16.9.0'}
 
   http-errors@2.0.1:
@@ -4191,10 +4191,10 @@ snapshots:
 
   '@blazediff/core@1.9.1': {}
 
-  '@convex-dev/auth@2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)':
+  '@convex-dev/auth@2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)':
     dependencies:
       '@babel/code-frame': 7.29.7
-      '@convex-dev/batch-worker': 0.3.6(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)
+      '@convex-dev/batch-worker': 0.3.6(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)
       '@convex-dev/rate-limiter': 0.3.2(convex@1.47.0(react@19.3.1))(react@19.3.1)
       '@simplewebauthn/browser': 14.0.0
       '@simplewebauthn/server': 14.0.3
@@ -4213,10 +4213,10 @@ snapshots:
       - typescript
       - zod
 
-  '@convex-dev/batch-worker@0.3.6(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)':
+  '@convex-dev/batch-worker@0.3.6(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)':
     dependencies:
       convex: 1.47.0(react@19.3.1)
-      convex-helpers: 0.1.128(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)
+      convex-helpers: 0.1.128(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)
     transitivePeerDependencies:
       - '@standard-schema/spec'
       - hono
@@ -4353,9 +4353,9 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hono/node-server@2.0.10(hono@4.13.7)':
+  '@hono/node-server@2.0.10(hono@4.13.14)':
     dependencies:
-      hono: 4.13.7
+      hono: 4.13.14
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -4380,7 +4380,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.31.0(zod@4.6.7)':
     dependencies:
-      '@hono/node-server': 2.0.10(hono@4.13.7)
+      '@hono/node-server': 2.0.10(hono@4.13.14)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -4390,7 +4390,7 @@ snapshots:
       eventsource-parser: 3.1.1
       express: 5.3.0
       express-rate-limit: 8.7.1(express@5.3.0)
-      hono: 4.13.7
+      hono: 4.13.14
       jose: 6.2.12
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -5439,7 +5439,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@samebase/convex-hosting-tanstack-start@0.10.1(@convex-dev/auth@2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7))(@convex-dev/react-query@0.1.0(@tanstack/react-query@5.104.4(@types/react@19.3.0)(react@19.3.1))(convex@1.47.0(react@19.3.1)))(@samebase/convex-hosting@0.13.1(convex@1.47.0(react@19.3.1)))(@tanstack/react-router@1.170.45(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@tanstack/react-start@1.169.3(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(esbuild@0.27.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(convex@1.47.0(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@samebase/convex-hosting-tanstack-start@0.10.1(@convex-dev/auth@2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7))(@convex-dev/react-query@0.1.0(@tanstack/react-query@5.104.4(@types/react@19.3.0)(react@19.3.1))(convex@1.47.0(react@19.3.1)))(@samebase/convex-hosting@0.13.1(convex@1.47.0(react@19.3.1)))(@tanstack/react-router@1.170.45(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@tanstack/react-start@1.169.3(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(esbuild@0.27.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(convex@1.47.0(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@tanstack/react-router': 1.170.45(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@tanstack/react-start': 1.169.3(@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3))(esbuild@0.27.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -5448,7 +5448,7 @@ snapshots:
       react-dom: 19.3.1(react@19.3.1)
       vite: '@voidzero-dev/vite-plus-core@0.3.0(@types/node@24.19.2)(esbuild@0.27.0)(jiti@2.7.0)(typescript@6.0.3)'
     optionalDependencies:
-      '@convex-dev/auth': 2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)
+      '@convex-dev/auth': 2.0.0-beta.0(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7)
       '@convex-dev/react-query': 0.1.0(@tanstack/react-query@5.104.4(@types/react@19.3.0)(react@19.3.1))(convex@1.47.0(react@19.3.1))
       '@samebase/convex-hosting': 0.13.1(convex@1.47.0(react@19.3.1))
 
@@ -6214,12 +6214,12 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  convex-helpers@0.1.128(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.7)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7):
+  convex-helpers@0.1.128(@standard-schema/spec@1.1.0)(convex@1.47.0(react@19.3.1))(hono@4.13.14)(react@19.3.1)(typescript@6.0.3)(zod@4.6.7):
     dependencies:
       convex: 1.47.0(react@19.3.1)
     optionalDependencies:
       '@standard-schema/spec': 1.1.0
-      hono: 4.13.7
+      hono: 4.13.14
       react: 19.3.1
       typescript: 6.0.3
       zod: 4.6.7
@@ -6565,7 +6565,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.13.7: {}
+  hono@4.13.14: {}
 
   http-errors@2.0.1:
     dependencies:
