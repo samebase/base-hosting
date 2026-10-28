@@ -124,6 +124,8 @@ the pull request closes. Both actions run the `deploy` package script. Keep its 
 
 `pnpm run deploy` runs `npx convex deploy` with the checks, the build, and the upload as its
 `--cmd`, so a failed check stops the release before the push switches the site. Inside that build,
+`scripts/register-hub-client.ts` registers a deployment with an identity hub when `HUB_ISSUER` and
+`HUB_REGISTRATION_TOKEN` are set; see docs/identity-hub.md.
 `scripts/ensure-convex-auth.ts` creates the Convex Auth keys on a new deployment or preview and
 keeps existing keys; it stops the deploy when the deployment it selects is not the one that the
 deploy targets. Deploy with `pnpm run deploy`, never with a plain `npx convex deploy`: a plain
